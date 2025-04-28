@@ -275,9 +275,9 @@
   <script>
     const foodProducts = [
     { name: "Classic Poteidon Bleu", price: 39.00, image: "HAM N CHEESE (2).png", description: "Mashed potato filled with ham & cheese." },
-    { name: "Bac'N'Cheese Poteidon Bleu", price: 59.00, image: "BACON N CHEESE (2).png", description: "Mashed potato filled with bacon & cheese." },
+    { name: "Bac'N'Chee Poteidon Bleu", price: 59.00, image: "BACON N CHEESE (2).png", description: "Mashed potato filled with bacon & cheese." },
     { name: "Meaty Poteidon Bleu", price: 59.00, image: "HAM N BACON (2).png", description: "Mashed potato filled with ham & bacon." },
-    { name: "Oveload Poteidon Bleu", price: 59.00, image: "OVERLOAD.jpg", description: "Mashed potato filled with ham, bacon and cheese." }
+    { name: "Overload Poteidon Bleu", price: 59.00, image: "OVERLOAD.jpg", description: "Mashed potato filled with ham, bacon and cheese." }
     ];
 
     const beverageProducts = [
@@ -341,11 +341,11 @@
         const itemTotal = item.price * item.qty;
         total += itemTotal;
         cartList.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class='fas fa-utensils'></i> ${item.qty} x ${item.name} - ₱${itemTotal}</span>
+          <span><i class='fas fa-utensils'></i> ${item.qty} x ${item.name} - ₱${itemTotal.toFixed(2)}</span>
           <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})"><i class="fas fa-times"></i></button>
         </li>`;
       });
-      cartTotal.textContent = `Total: ₱${total}`;
+      cartTotal.textContent = `Total: ₱${total.toFixed(2)}`;
     }
 
     function removeFromCart(index) {
