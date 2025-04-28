@@ -274,161 +274,149 @@
   </div>  
   <script>
     const foodProducts = [
-    { name: "Classic Poteidon Bleu", price: 39.00, image: "HAM N CHEESE (2).png", description: "Mashed potato filled with ham & cheese." },
-    { name: "Bac'N'Chee Poteidon Bleu", price: 59.00, image: "BACON N CHEESE (2).png", description: "Mashed potato filled with bacon & cheese." },
-    { name: "Meaty Poteidon Bleu", price: 59.00, image: "HAM N BACON (2).png", description: "Mashed potato filled with ham & bacon." },
-    { name: "Overload Poteidon Bleu", price: 59.00, image: "OVERLOAD.jpg", description: "Mashed potato filled with ham, bacon and cheese." }
+        { name: "Classic Poteidon Bleu", price: 39.00, image: "HAM N CHEESE (2).png", description: "Mashed potato filled with ham & cheese." },
+        { name: "Bac'N'Chee Poteidon Bleu", price: 59.00, image: "BACON N CHEESE (2).png", description: "Mashed potato filled with bacon & cheese." },
+        { name: "Meaty Poteidon Bleu", price: 59.00, image: "HAM N BACON (2).png", description: "Mashed potato filled with ham & bacon." },
+        { name: "Overload Poteidon Bleu", price: 59.00, image: "OVERLOAD.jpg", description: "Mashed potato filled with ham, bacon and cheese." }
     ];
 
     const beverageProducts = [
-    { name: "BUTTERFLY LEMONADE TEA", price: 50, image: "OVERLOAD (4).png", description: "A refreshing and tangy lemonade tea with a floral twist." }
+        { name: "BUTTERFLY LEMONADE TEA", price: 50, image: "OVERLOAD (4).png", description: "A refreshing and tangy lemonade tea with a floral twist." }
     ];
-
-
 
     let cart = [];
 
     function renderProducts(products, containerId) {
-    const container = document.getElementById(containerId);
-    products.forEach((product, index) => {
-        container.innerHTML += `
-        <div class="col-md-3 mb-3">
-            <div class="card product-card text-center">
-            <div class="card-body">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <h5 class="card-title"><b>${product.name}</b></h5>
-                <p class="card-text">₱${product.price.toFixed(2)}</p>
-                <p class="card-text">${product.description}</p>
-                <div class="quantity-wrapper mb-2">
-                <button class="btn btn-outline-secondary btn-sm" onclick="changeQty('qty-${containerId}-${index}', -1)"><i class="fas fa-minus"></i></button>
-                <input type="number" id="qty-${containerId}-${index}" class="form-control" value="1" min="1">
-                <button class="btn btn-outline-secondary btn-sm" onclick="changeQty('qty-${containerId}-${index}', 1)"><i class="fas fa-plus"></i></button>
+        const container = document.getElementById(containerId);
+        products.forEach((product, index) => {
+            container.innerHTML += `
+            <div class="col-md-3 mb-3">
+                <div class="card product-card text-center">
+                    <div class="card-body">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <h5 class="card-title"><b>${product.name}</b></h5>
+                        <p class="card-text">₱${product.price.toFixed(2)}</p>
+                        <p class="card-text">${product.description}</p>
+                        <div class="quantity-wrapper mb-2">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="changeQty('qty-${containerId}-${index}', -1)"><i class="fas fa-minus"></i></button>
+                            <input type="number" id="qty-${containerId}-${index}" class="form-control" value="1" min="1">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="changeQty('qty-${containerId}-${index}', 1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="addToCart('${product.name}', ${product.price}, 'qty-${containerId}-${index}')">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
                 </div>
-                <button class="btn btn-primary w-100" onclick="addToCart('${product.name}', ${product.price}, 'qty-${containerId}-${index}')">
-                <i class="fas fa-cart-plus"></i> Add to Cart
-                </button>
             </div>
-            </div>
-        </div>
-        `;
-    });
-}
+            `;
+        });
+    }
 
     function changeQty(id, delta) {
-      const input = document.getElementById(id);
-      let val = parseInt(input.value) + delta;
-      if (val < 1) val = 1;
-      input.value = val;
+        const input = document.getElementById(id);
+        let val = parseInt(input.value) + delta;
+        if (val < 1) val = 1;
+        input.value = val;
     }
 
     function addToCart(name, price, qtyId) {
-      const qty = parseInt(document.getElementById(qtyId).value);
-      if (!qty || qty <= 0) {
-        alert("Please enter a valid quantity.");
-        return;
-      }
-      cart.push({ name, price, qty });
-      renderCart();
-      new bootstrap.Toast(document.getElementById('toastSuccess')).show();
+        const qty = parseInt(document.getElementById(qtyId).value);
+        if (!qty || qty <= 0) {
+            alert("Please enter a valid quantity.");
+            return;
+        }
+        cart.push({ name, price, qty });
+        renderCart();
+        new bootstrap.Toast(document.getElementById('toastSuccess')).show();
     }
 
     function renderCart() {
-      const cartList = document.getElementById("cartList");
-      const cartTotal = document.getElementById("cartTotal");
-      cartList.innerHTML = "";
-      let total = 0;
-      cart.forEach((item, index) => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        cartList.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class='fas fa-utensils'></i> ${item.qty} x ${item.name} - ₱${itemTotal.toFixed(2)}</span>
-          <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})"><i class="fas fa-times"></i></button>
-        </li>`;
-      });
-      cartTotal.textContent = `Total: ₱${total.toFixed(2)}`;
+        const cartList = document.getElementById("cartList");
+        const cartTotal = document.getElementById("cartTotal");
+        cartList.innerHTML = "";
+        let total = 0;
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.qty;
+            total += itemTotal;
+            cartList.innerHTML += `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><i class='fas fa-utensils'></i> ${item.qty} x ${item.name} - ₱${itemTotal.toFixed(2)}</span>
+                    <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})"><i class="fas fa-times"></i></button>
+                </li>`;
+        });
+        cartTotal.textContent = `Total: ₱${total.toFixed(2)}`;
     }
 
     function removeFromCart(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
-
-    function checkout() {
-      if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-      }
-      let total = 0;
-      let summary = '<ul class="list-group">';
-      cart.forEach(item => {
-        const itemTotal = (item.price * item.qty).toFixed(2);  // Format individual item total
-        summary += `<li class="list-group-item">${item.qty} x ${item.name} = ₱${itemTotal}</li>`;
-        total += parseFloat(itemTotal);  // Add formatted value to total, ensuring it's a number
-      });
-      summary += `<h5 class="mt-3">Total: ₱${total.toFixed(2)}</h5>`;  // Format total to 2 decimal places
-      document.getElementById("checkoutSummary").innerHTML = summary;
-      new bootstrap.Modal(document.getElementById('checkoutModal')).show();
-    }
-
-
-    function placeOrder() {
-      cart = [];
-      renderCart();
-      bootstrap.Modal.getInstance(document.getElementById('checkoutModal')).hide();
-      new bootstrap.Modal(document.getElementById('orderPlacedModal')).show();
+        cart.splice(index, 1);
+        renderCart();
     }
 
     function clearCart() {
-      if (cart.length === 0) {
-        alert("Your cart is already empty.");
-        return;
-      }
-      if (confirm("Are you sure you want to clear your cart?")) {
+        if (cart.length === 0) {
+            alert("Your cart is already empty.");
+            return;
+        }
+        if (confirm("Are you sure you want to clear your cart?")) {
+            cart = [];
+            renderCart();
+        }
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Your cart is empty.");
+            return;
+        }
+        let total = 0;
+        let summary = '<ul class="list-group">';
+        cart.forEach(item => {
+            const itemTotal = (item.price * item.qty).toFixed(2);
+            summary += `<li class="list-group-item">${item.qty} x ${item.name} = ₱${itemTotal}</li>`;
+            total += parseFloat(itemTotal);
+        });
+        summary += `</ul><h5 class="mt-3">Total: ₱${total.toFixed(2)}</h5>`;
+        document.getElementById("checkoutSummary").innerHTML = summary;
+        new bootstrap.Modal(document.getElementById('checkoutModal')).show();
+    }
+
+    function togglePaymentFields() {
+        const selected = document.querySelector('input[name="paymentOption"]:checked').value;
+        document.getElementById('cardDetails').style.display = selected === 'card' ? 'block' : 'none';
+        document.getElementById('gcashQR').style.display = selected === 'gcash' ? 'block' : 'none';
+    }
+
+    function placeOrder() {
+        // Check if payment option is selected
+        const selectedPayment = document.querySelector('input[name="paymentOption"]:checked');
+        if (!selectedPayment) {
+            alert("Please select a payment option.");
+            return;
+        }
+
+        // Clear cart
         cart = [];
         renderCart();
-      }
+
+        // Show success message
+        const message = document.getElementById('orderPlacedMessage');
+        if (message) {
+            message.style.display = 'block';
+        }
+
+        // Hide checkout modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+        if (modal) modal.hide();
+
+        // After 2 seconds, redirect to ordering.html
+        setTimeout(() => {
+            window.location.href = "ordering.html";
+        }, 2000);
     }
 
     renderProducts(foodProducts, "foodMenu");
     renderProducts(beverageProducts, "beverageMenu");
-  </script>
-  <script>
-    function togglePaymentFields() {
-      const selected = document.querySelector('input[name="paymentOption"]:checked').value;
-  
-      document.getElementById('cardDetails').style.display = selected === 'card' ? 'block' : 'none';
-      document.getElementById('gcashQR').style.display = selected === 'gcash' ? 'block' : 'none';
-    }
-  
-    function placeOrder() {
-      const selected = document.querySelector('input[name="paymentOption"]:checked').value;
-  
-      alert("Order placed using " + selected.toUpperCase() + "!");
-      window.location.href = "ordering.html";
-    }
-  </script> 
-  <script>
-    function togglePaymentFields() {
-      const selected = document.querySelector('input[name="paymentOption"]:checked').value;
-      document.getElementById('cardDetails').style.display = selected === 'card' ? 'block' : 'none';
-      document.getElementById('gcashQR').style.display = selected === 'gcash' ? 'block' : 'none';
-    }
-  
-    function placeOrder() {
-      // Show success message
-      const message = document.getElementById('orderPlacedMessage');
-      message.style.display = 'block';
-  
-      // Hide modal if it's open
-      const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
-      if (modal) modal.hide();
-  
-      // Wait a few seconds, then redirect
-      setTimeout(() => {
-        window.location.href = "ordering.html";
-      }, 2000);
-    }
-  </script>  
+</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
